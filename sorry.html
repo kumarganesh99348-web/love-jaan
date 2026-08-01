@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🙏 I'm Sorry, Jeenee</title>
+<link rel="stylesheet" href="style.css"/>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="shared.js"></script>
+<style>
+  body { background: linear-gradient(160deg,#0a0010 0%,#1a0020 40%,#0d0818 70%,#000510 100%); }
+  #rainCanvas { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity:0.35; transition:opacity 2s ease; }
+
+  /* Candle */
+  .candle-wrap { display:flex; justify-content:center; margin-bottom:24px; }
+  .candle-inner { position:relative; }
+  .glow { width:70px; height:70px; background:radial-gradient(circle,rgba(255,180,0,0.4) 0%,transparent 70%); border-radius:50%; position:absolute; top:-24px; left:50%; transform:translateX(-50%); animation:glowPulse 1.5s ease-in-out infinite; }
+  @keyframes glowPulse { 0%,100%{transform:translateX(-50%) scale(1);opacity:0.7} 50%{transform:translateX(-50%) scale(1.4);opacity:1} }
+  .flame { position:absolute; top:-48px; left:50%; transform:translateX(-50%); }
+  .flame-inner { width:18px; height:38px; background:radial-gradient(ellipse at 50% 80%,#fff 0%,#ffe066 30%,#ff9800 60%,rgba(255,80,0,0.3) 85%,transparent 100%); border-radius:50% 50% 30% 30%; animation:flicker 1.4s ease-in-out infinite; transform-origin:bottom center; }
+  @keyframes flicker { 0%,100%{transform:scaleX(1) scaleY(1) rotate(-1deg)} 25%{transform:scaleX(0.85) scaleY(1.1) rotate(2deg)} 50%{transform:scaleX(1.1) scaleY(0.94) rotate(-2deg)} 75%{transform:scaleX(0.9) scaleY(1.06) rotate(1deg)} }
+  .candle-body { width:26px; height:88px; background:linear-gradient(to bottom,#fff8e1,#ffe082,#ffca28); border-radius:4px 4px 2px 2px; position:relative; box-shadow:0 0 18px rgba(255,200,50,0.25); }
+  .wick { width:2px; height:13px; background:#444; position:absolute; top:-11px; left:50%; transform:translateX(-50%); border-radius:1px; }
+
+  .sorry-wrap { max-width:620px; width:100%; text-align:center; position:relative; z-index:2; }
+  .sorry-card { padding:40px 32px; }
+  .page-label { font-size:0.8rem; color:rgba(255,255,255,0.3); letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
+
+  .broken-heart { font-size:4rem; display:block; margin-bottom:8px; animation:heartBreak 3s ease-in-out infinite; }
+  @keyframes heartBreak {
+    0%,100%{ transform:scale(1); filter:drop-shadow(0 0 8px rgba(255,107,157,0.5)); }
+    30%    { transform:scale(1.18); filter:drop-shadow(0 0 22px rgba(255,107,157,0.9)); }
+    50%    { transform:scale(0.94) rotate(-3deg); }
+    70%    { transform:scale(1.06) rotate(2deg); }
+  }
+
+  .sorry-title { font-family:'Dancing Script',cursive; font-size:clamp(2rem,6vw,3.5rem); color:#e8a0bf; margin-bottom:4px; }
+  .sorry-name  { font-family:'Dancing Script',cursive; font-size:clamp(2.8rem,9vw,5rem); color:var(--pink); line-height:1; text-shadow:0 0 40px rgba(255,107,157,0.5); }
+  .divider { width:60px; height:2px; background:linear-gradient(90deg,transparent,rgba(255,107,157,0.5),transparent); margin:20px auto; }
+
+  .sorry-body { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(0.92rem,2.4vw,1.05rem); line-height:1.9; color:rgba(255,220,235,0.88); text-align:left; margin:20px 0; }
+  .sorry-body p { margin-bottom:14px; opacity:0; animation:fadeUp 0.7s ease forwards; }
+  .sorry-body p:nth-child(1){animation-delay:0.3s} .sorry-body p:nth-child(2){animation-delay:0.8s}
+  .sorry-body p:nth-child(3){animation-delay:1.3s} .sorry-body p:nth-child(4){animation-delay:1.8s}
+  .sorry-body p:nth-child(5){animation-delay:2.3s} .sorry-body p:nth-child(6){animation-delay:2.8s}
+  .sorry-body p:nth-child(7){animation-delay:3.3s}
+  @keyframes fadeUp { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+  .promise-box { background:rgba(255,107,157,0.07); border:1px solid rgba(255,107,157,0.22); border-radius:16px; padding:22px; margin:20px 0; opacity:0; animation:fadeUp 0.7s 0.6s ease forwards; }
+  .promise-title { font-family:'Dancing Script',cursive; font-size:1.35rem; color:var(--pink); margin-bottom:12px; }
+  .promise-list { list-style:none; text-align:left; }
+  .promise-list li { padding:5px 0; font-size:0.9rem; color:rgba(255,220,235,0.82); display:flex; align-items:flex-start; gap:10px; }
+  .promise-list li::before { content:'🌹'; flex-shrink:0; }
+
+  .forgive-section { margin-top:28px; opacity:0; animation:fadeUp 0.7s 1.4s ease forwards; }
+  .forgive-btn { padding:18px 48px; font-size:1.05rem; border-radius:50px; background:linear-gradient(135deg,#ff6b9d,#c2185b); color:#fff; border:none; cursor:pointer; font-family:'Poppins',sans-serif; font-weight:500; box-shadow:0 6px 28px rgba(255,77,125,0.5); transition:all 0.3s; }
+  .forgive-btn:hover { transform:translateY(-4px) scale(1.05); box-shadow:0 12px 40px rgba(255,77,125,0.7); }
+  .forgive-hint { font-size:0.8rem; color:rgba(255,255,255,0.3); margin-top:10px; }
+
+  .forgiven-msg { display:none; }
+  .forgiven-msg.show { display:block; animation:pageIn 1s ease forwards; }
+  .forgiven-title { font-family:'Dancing Script',cursive; font-size:clamp(2rem,7vw,3.2rem); color:var(--gold); text-shadow:0 0 28px rgba(255,215,0,0.6); margin-bottom:14px; }
+  .forgiven-body { font-family:'Playfair Display',serif; font-style:italic; font-size:1rem; color:rgba(255,220,235,0.9); line-height:1.8; margin-bottom:24px; }
+</style>
+</head>
+<body>
+
+<canvas id="rainCanvas"></canvas>
+<div class="hearts-bg" id="hc"></div>
+
+<!-- Sad teddy on this page -->
+<div style="position:fixed;bottom:50px;left:20px;font-size:3rem;z-index:1;animation:teddyBob 2s ease-in-out infinite">🧸</div>
+<style>@keyframes teddyBob{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-10px) rotate(5deg)}}</style>
+
+<div class="section page-enter">
+  <div class="sorry-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+
+    <div class="glass sorry-card">
+      <p class="page-label">Chapter 7 · From The Heart</p>
+
+      <div class="candle-wrap">
+        <div class="candle-inner">
+          <div class="glow"></div>
+          <div class="flame"><div class="flame-inner"></div></div>
+          <div class="candle-body"><div class="wick"></div></div>
+        </div>
+      </div>
+
+      <span class="broken-heart">💔</span>
+      <div class="sorry-title">I'm So Sorry,</div>
+      <div class="sorry-name">Jeenee 🙏</div>
+      <div class="divider"></div>
+
+      <div class="promise-box">
+        <div class="promise-title">My Promises To You 🌹</div>
+        <ul class="promise-list">
+          <li>To always choose you, even when it's hard</li>
+          <li>To communicate better and never shut you out</li>
+          <li>To be the partner you deserve — every single day</li>
+          <li>To never take your love for granted again</li>
+          <li>To make you smile more than I ever make you cry</li>
+        </ul>
+      </div>
+
+      <div class="forgive-section" id="forgiveSection">
+        <p style="font-family:'Dancing Script',cursive;font-size:1.2rem;color:rgba(255,200,220,0.8);margin-bottom:18px">When you're ready, my sweetheart... 💕</p>
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin-bottom:14px">👆 Tap the button below only when you truly feel it 🌸</p>
+        <button class="forgive-btn" id="forgiveBtn">I Forgive You 💖</button>
+        <p class="forgive-hint">Only tap when you truly feel it 🌸</p>
+      </div>
+
+      <div class="forgiven-msg" id="forgivenMsg">
+        <div class="divider"></div>
+        <div class="forgiven-title">Thank you, Jeenee 💖</div>
+        <div class="forgiven-body">
+          <p>You have no idea what those three words just did to my heart, bubu. 🥺</p>
+          <p style="margin-top:10px">"I promise to spend every remaining day of my life making sure you never regret giving me another chance. You are my everything, Jeenee — my sun, my moon, my whole universe. 🌹"</p>
+        </div>
+        <div class="next-wrap">
+          <a href="petals.html" class="btn btn-primary" onclick="showToast('Almost there... 🌹')">Continue 🌹</a>
+          <div class="tap-prompt" style="justify-content:center;margin-top:8px">👆 Tap to continue <span class="tap-arrow">🌹</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+// Rain
+const canvas=document.getElementById('rainCanvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+const drops=[];
+for(let i=0;i<120;i++) drops.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,speed:4+Math.random()*6,len:12+Math.random()*18,opacity:0.2+Math.random()*0.35});
+function drawRain(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drops.forEach(d=>{
+    ctx.beginPath(); ctx.moveTo(d.x,d.y); ctx.lineTo(d.x-1,d.y+d.len);
+    ctx.strokeStyle=`rgba(180,200,255,${d.opacity})`; ctx.lineWidth=0.8; ctx.stroke();
+    d.y+=d.speed; if(d.y>canvas.height){d.y=-d.len;d.x=Math.random()*canvas.width;}
+  });
+  requestAnimationFrame(drawRain);
+}
+drawRain();
+
+// Hearts
+const hc=document.getElementById('hc');
+const em=['💔','🥺','💕','🌹','💗'];
+function spawnHeart(){
+  const h=document.createElement('div'); h.className='heart-float';
+  h.textContent=em[Math.floor(Math.random()*em.length)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.7+Math.random()*1}rem;animation-duration:${10+Math.random()*8}s`;
+  hc.appendChild(h); setTimeout(()=>h.remove(),20000);
+}
+setInterval(spawnHeart,2500);
+
+// Sparkles
+document.addEventListener('click',e=>{
+  for(let k=0;k<4;k++){
+    const sp=document.createElement('div');
+    sp.style.cssText=`position:fixed;left:${e.clientX+(-20+Math.random()*40)}px;top:${e.clientY+(-20+Math.random()*40)}px;font-size:${0.7+Math.random()*0.8}rem;pointer-events:none;z-index:9999;animation:sparkleAnim 0.8s ease forwards`;
+    sp.textContent=['🌸','💕','✨','🌹'][Math.floor(Math.random()*4)];
+    document.body.appendChild(sp); setTimeout(()=>sp.remove(),800);
+  }
+});
+
+// ── EmailJS Setup ──────────────────────────────────────────
+// STEP 1: Go to https://emailjs.com → sign up free
+// STEP 2: Add Email Service (connect Gmail) → copy Service ID
+// STEP 3: Create Email Template → copy Template ID
+//         In the template body use: {{{message}}} and {{{time}}}
+// STEP 4: Go to Account → copy Public Key
+// Paste all 3 values below:
+const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';   // ← replace
+const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';   // ← replace
+const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  // ← replace
+
+emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+
+function sendForgiveEmail() {
+  const now = new Date();
+  const timeStr = now.toLocaleString('en-GB', { dateStyle:'full', timeStyle:'short' });
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+    to_email : 'kumarganesh99348@gmail.com',
+    to_name  : 'Ganesh',
+    message  : '💖 Jeenee tapped "I Forgive You" — she forgave you! 🥹🌹',
+    time     : timeStr
+  }).then(
+    ()  => console.log('💌 Forgive email sent!'),
+    (e) => console.warn('EmailJS error:', e)
+  );
+}
+// ───────────────────────────────────────────────────────────
+
+// Forgive
+document.getElementById('forgiveBtn').addEventListener('click',function(){
+  this.disabled=true; this.textContent='💖 Thank you...';
+  canvas.style.opacity='0.08';
+
+  sendForgiveEmail();
+  showToast('💖 Thank you, Jeenee... this means everything 🥺');
+  for(let i=0;i<35;i++){
+    setTimeout(()=>{
+      const h=document.createElement('div');
+      h.style.cssText=`position:fixed;left:${10+Math.random()*80}%;top:${10+Math.random()*80}%;font-size:${1.2+Math.random()*2.5}rem;pointer-events:none;z-index:9999;animation:sparkleAnim ${0.8+Math.random()*0.8}s ease forwards`;
+      h.textContent=['💖','💕','💗','🌹','✨','🌟','💫'][Math.floor(Math.random()*7)];
+      document.body.appendChild(h); setTimeout(()=>h.remove(),1600);
+    },i*80);
+  }
+  setTimeout(()=>{
+    document.getElementById('forgiveSection').style.display='none';
+    document.getElementById('forgivenMsg').classList.add('show');
+  },1200);
+});
+
+setupAudio('audio/audio8.mp3');
+</script>
+</body>
+</html>

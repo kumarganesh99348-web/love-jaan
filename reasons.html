@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>✨ Why I Love You, Jeenee</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  body{background:linear-gradient(135deg,#0d0020 0%,#1a0035 40%,#0a1530 70%,#000d1a 100%)}
+  .reasons-wrap{text-align:center;max-width:760px;width:100%}
+  .page-label{font-size:0.8rem;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+  .reasons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:20px 0}
+  .reason-card{padding:26px 18px;border-radius:20px;cursor:pointer;background:rgba(255,255,255,0.07);border:1px solid rgba(255,107,157,0.2);backdrop-filter:blur(12px);transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);opacity:0;animation:popIn 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards;position:relative;overflow:hidden}
+  @keyframes popIn{from{opacity:0;transform:scale(0.5) rotate(-5deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+  .reason-card:nth-child(1){animation-delay:0.05s}.reason-card:nth-child(2){animation-delay:0.1s}
+  .reason-card:nth-child(3){animation-delay:0.15s}.reason-card:nth-child(4){animation-delay:0.2s}
+  .reason-card:nth-child(5){animation-delay:0.25s}.reason-card:nth-child(6){animation-delay:0.3s}
+  .reason-card:nth-child(7){animation-delay:0.35s}.reason-card:nth-child(8){animation-delay:0.4s}
+  .reason-card:nth-child(9){animation-delay:0.45s}.reason-card:nth-child(10){animation-delay:0.5s}
+  .reason-card:nth-child(11){animation-delay:0.55s}.reason-card:nth-child(12){animation-delay:0.6s}
+  .reason-card:hover{transform:translateY(-8px) scale(1.04) rotate(1deg);background:rgba(255,107,157,0.18);border-color:rgba(255,107,157,0.5);box-shadow:0 12px 40px rgba(255,77,125,0.3)}
+  .reason-card.clicked{background:rgba(255,107,157,0.22);border-color:var(--pink)}
+  .reason-card.clicked::after{content:'✅';position:absolute;top:8px;right:10px;font-size:0.9rem}
+  .r-num{font-family:'Dancing Script',cursive;font-size:1.6rem;color:var(--pink);display:block;margin-bottom:6px}
+  .r-icon{font-size:1.7rem;display:block;margin-bottom:6px}
+  .r-text{font-size:0.85rem;color:rgba(255,255,255,0.85);line-height:1.5}
+  .progress-bar{width:100%;height:6px;background:rgba(255,255,255,0.1);border-radius:3px;margin:12px 0;overflow:hidden}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--gold));border-radius:3px;transition:width 0.5s ease;width:0%}
+  .progress-text{font-size:0.82rem;color:rgba(255,255,255,0.45);margin-bottom:16px}
+  .all-done{display:none}.all-done.show{display:block;animation:pageIn 0.8s ease forwards}
+  .flower-rain{position:fixed;top:-40px;pointer-events:none;z-index:1;animation:flowerFall linear infinite}
+  @keyframes flowerFall{0%{transform:translateY(-60px) rotate(0deg);opacity:0}5%{opacity:1}95%{opacity:0.8}100%{transform:translateY(110vh) rotate(540deg) translateX(30px);opacity:0}}
+</style>
+</head>
+<body>
+<div class="hearts-bg" id="hc"></div>
+<div id="flowerContainer"></div>
+
+<div class="section page-enter">
+  <div class="reasons-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <p class="page-label">Chapter 4 · My Reasons</p>
+    <h1 class="title-script" style="margin-bottom:6px">Why I Love You, Jeenee ✨</h1>
+    <p class="subtitle" style="margin-bottom:4px">👆 Tap each card to unlock a reason, bubu 💕</p>
+    <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin-bottom:8px">Unlock all 12 to continue 🌸</p>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">0 / 12 reasons unlocked</div>
+
+    <div class="reasons-grid">
+      <div class="reason-card"><span class="r-num">#1</span><span class="r-icon">😊</span><span class="r-text">Your smile lights up every room you walk into, sweetheart</span></div>
+      <div class="reason-card"><span class="r-num">#2</span><span class="r-icon">💪</span><span class="r-text">Your strength and courage inspire me every day, my jaan</span></div>
+      <div class="reason-card"><span class="r-num">#3</span><span class="r-icon">😂</span><span class="r-text">You make me laugh like no one else ever could, bubu</span></div>
+      <div class="reason-card"><span class="r-num">#4</span><span class="r-icon">🤗</span><span class="r-text">Your hugs feel like home — safe and warm always, my love</span></div>
+      <div class="reason-card"><span class="r-num">#5</span><span class="r-icon">🧠</span><span class="r-text">Your mind is brilliant and endlessly fascinating, baby</span></div>
+      <div class="reason-card"><span class="r-num">#6</span><span class="r-icon">💖</span><span class="r-text">The way you love — deeply, fully, beautifully, Jeenee</span></div>
+      <div class="reason-card"><span class="r-num">#7</span><span class="r-icon">🌟</span><span class="r-text">You make ordinary moments feel extraordinary, my queen</span></div>
+      <div class="reason-card"><span class="r-num">#8</span><span class="r-icon">🎵</span><span class="r-text">The way you dance when you think no one's watching, bubu</span></div>
+      <div class="reason-card"><span class="r-num">#9</span><span class="r-icon">🌙</span><span class="r-text">You're the last thought I have before I sleep, sweetheart</span></div>
+      <div class="reason-card"><span class="r-num">#10</span><span class="r-icon">☀️</span><span class="r-text">You're the first thing I think of every morning, my jaan</span></div>
+      <div class="reason-card"><span class="r-num">#11</span><span class="r-icon">🌍</span><span class="r-text">Every adventure is better because you're in it, baby</span></div>
+      <div class="reason-card"><span class="r-num">#12</span><span class="r-icon">♾️</span><span class="r-text">Simply because you are you, Jeenee — and that's everything</span></div>
+    </div>
+
+    <div class="glass all-done" id="allDone" style="padding:28px;margin-top:8px">
+      <div style="font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--gold);margin-bottom:10px">All 12 unlocked! 💖</div>
+      <p style="font-family:'Playfair Display',serif;font-style:italic;color:rgba(255,220,235,0.9);margin-bottom:20px">"And there are a million more reasons, sweetheart — more than words could ever hold 🌹"</p>
+      <a href="gift.html" class="btn btn-primary" onclick="showToast('Next — a gift just for you 🎁')">Next Surprise 🎁</a>
+      <div class="tap-prompt" style="justify-content:center;margin-top:8px">👆 Tap to open your gift <span class="tap-arrow">🎁</span></div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+const fc=document.getElementById('flowerContainer');
+['🌸','🌹','🌷'].forEach(f=>{
+  for(let i=0;i<2;i++){
+    const el=document.createElement('div');el.className='flower-rain';el.textContent=f;
+    el.style.cssText=`left:${Math.random()*100}%;font-size:${0.7+Math.random()*1}rem;animation-duration:${7+Math.random()*8}s;animation-delay:${Math.random()*6}s`;
+    fc.appendChild(el);
+  }
+});
+const hc=document.getElementById('hc');
+function spawnHeart(){
+  const h=document.createElement('div');h.className='heart-float';
+  h.textContent=['💖','💕','✨','🌟','💫'][Math.floor(Math.random()*5)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${8+Math.random()*6}s`;
+  hc.appendChild(h);setTimeout(()=>h.remove(),14000);
+}
+setInterval(spawnHeart,2500);
+
+let unlocked=0;
+const total=12;
+const fill=document.getElementById('progressFill');
+const progressText=document.getElementById('progressText');
+const toasts=['😊 Your smile is everything, sweetheart!','💪 You are so strong, my jaan!','😂 Your laugh is my favourite sound, bubu!','🤗 Your hugs are home, my love!','🧠 You are brilliant, baby!','💖 The way you love is beautiful, Jeenee!','🌟 You make life magical, my queen!','🎵 I love how you dance, bubu!','🌙 Last thought every night, sweetheart!','☀️ First thought every morning, my jaan!','🌍 Adventures are better with you, baby!','♾️ You are everything, Jeenee!'];
+
+document.querySelectorAll('.reason-card').forEach((card,idx)=>{
+  card.addEventListener('click',function(){
+    if(this.classList.contains('clicked')) return;
+    this.classList.add('clicked');
+    unlocked++;
+    fill.style.width=`${(unlocked/total)*100}%`;
+    progressText.textContent=`${unlocked} / ${total} reasons unlocked`;
+    showToast(toasts[idx]||'✨ Unlocked!');
+    const rect=this.getBoundingClientRect();
+    sparkleAt(rect.left+rect.width/2,rect.top+rect.height/2,12);
+    if(unlocked===total){
+      setTimeout(()=>{
+        showPop('💖','All 12 Reasons Unlocked!','You just unlocked every reason I love you, Jeenee 🌹<br/>And there are still a million more, bubu... 💕','I feel so loved! 🥺',()=>{
+          document.getElementById('allDone').classList.add('show');
+        });
+      },400);
+    }
+  });
+});
+
+setupAudio('audio/audio4.mp3');
+</script>
+</body>
+</html>

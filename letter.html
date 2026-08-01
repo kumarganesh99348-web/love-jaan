@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>💌 A Letter For Jeenee</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  body{background:linear-gradient(135deg,#0d0020 0%,#1a0035 40%,#0a1530 70%,#000d1a 100%)}
+  .letter-wrap{width:100%;max-width:640px;text-align:center}
+  .page-label{font-size:0.8rem;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+  .envelope-scene{perspective:800px;margin:28px auto;cursor:pointer;width:fit-content}
+  .envelope{width:220px;height:150px;margin:0 auto;position:relative;transform-style:preserve-3d}
+  .envelope-body{width:220px;height:150px;background:linear-gradient(135deg,#ff6b9d,#c2185b);border-radius:8px;position:absolute;display:flex;align-items:center;justify-content:center;font-size:2.5rem;box-shadow:0 8px 32px rgba(255,77,125,0.5)}
+  .envelope-flap{position:absolute;top:0;left:0;width:0;height:0;border-left:110px solid transparent;border-right:110px solid transparent;border-top:80px solid #e91e8c;transform-origin:top center;transition:transform 0.7s ease}
+  .envelope.open .envelope-flap{transform:rotateX(180deg)}
+  .envelope-letter{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);width:180px;height:0;background:#fff9fc;border-radius:6px;overflow:hidden;transition:height 0.8s 0.4s ease,bottom 0.8s 0.4s ease;display:flex;align-items:center;justify-content:center}
+  .envelope.open .envelope-letter{height:160px;bottom:80px}
+  .envelope-letter span{font-family:'Dancing Script',cursive;color:#c2185b;font-size:1rem;padding:8px;text-align:center}
+  .tap-hint-env{font-size:0.85rem;color:rgba(255,255,255,0.5);margin-top:10px}
+  .scroll-container{display:none;position:relative;margin:0 auto;max-width:560px}
+  .scroll-container.show{display:block;animation:pageIn 0.8s ease forwards}
+  .scroll-top,.scroll-bottom{width:100%;height:28px;background:linear-gradient(90deg,#8B4513,#D2691E,#8B4513);border-radius:14px;box-shadow:0 4px 12px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.2);position:relative;z-index:2}
+  .scroll-body{background:linear-gradient(180deg,#fdf6e3,#fef9f0,#fdf6e3);border-left:8px solid #D2691E;border-right:8px solid #D2691E;padding:28px 32px;overflow:hidden;max-height:0;transition:max-height 1.5s ease;position:relative}
+  .scroll-body.unrolled{max-height:1000px}
+  .scroll-body::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(transparent,transparent 28px,rgba(139,69,19,0.08) 28px,rgba(139,69,19,0.08) 29px);pointer-events:none}
+  .scroll-date{font-family:'Dancing Script',cursive;font-size:0.9rem;color:#8B4513;margin-bottom:16px;opacity:0.7}
+  .scroll-text{font-family:'Playfair Display',serif;font-size:1rem;line-height:1.9;color:#3d1a00;text-align:left}
+  .scroll-sign{font-family:'Dancing Script',cursive;font-size:1.6rem;color:#c2185b;text-align:right;margin-top:16px;display:block}
+  .scroll-hearts{text-align:center;font-size:1.2rem;letter-spacing:6px;margin:12px 0}
+  .piano-flash{position:fixed;top:20px;left:50%;transform:translateX(-50%);font-size:1.2rem;pointer-events:none;z-index:9999;animation:pianoNote 0.4s ease forwards}
+  @keyframes pianoNote{0%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}100%{opacity:0;transform:translateX(-50%) translateY(-30px) scale(1.3)}}
+  .next-wrap-letter{text-align:center;margin-top:24px;opacity:0;transition:opacity 0.8s ease}
+  .flower-rain{position:fixed;top:-40px;pointer-events:none;z-index:1;animation:flowerFall linear infinite}
+  @keyframes flowerFall{0%{transform:translateY(-60px) rotate(0deg) translateX(0);opacity:0}5%{opacity:1}95%{opacity:0.8}100%{transform:translateY(110vh) rotate(540deg) translateX(30px);opacity:0}}
+</style>
+</head>
+<body>
+<div class="hearts-bg" id="hc"></div>
+<div id="flowerContainer"></div>
+
+<div class="section page-enter">
+  <div class="letter-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <p class="page-label">Chapter 3 · From My Heart</p>
+    <h1 class="title-script" style="margin-bottom:6px">A Letter For You 💌</h1>
+    <p class="subtitle" style="margin-bottom:4px">Written with every piece of my heart, sweetheart</p>
+
+    <div class="envelope-scene" id="envelopeScene">
+      <div class="envelope" id="envelope">
+        <div class="envelope-body">💌</div>
+        <div class="envelope-flap"></div>
+        <div class="envelope-letter"><span>Open me 💕</span></div>
+      </div>
+      <p class="tap-hint-env">👆 Tap the envelope to open it 💌</p>
+      <div class="tap-prompt" style="justify-content:center;margin-top:6px">👇 Tap below the envelope <span class="tap-arrow">💌</span></div>
+    </div>
+
+    <div class="scroll-container" id="scrollContainer">
+      <div class="scroll-top"></div>
+      <div class="scroll-body" id="scrollBody">
+        <div class="scroll-date">Written with love, just for you 🌹</div>
+        <div class="scroll-text" id="scrollText"></div>
+        <div class="scroll-hearts" id="scrollHearts" style="opacity:0">💖 💕 💗 💓 💖</div>
+        <span class="scroll-sign" id="scrollSign" style="opacity:0">Forever yours, always 🌹</span>
+      </div>
+      <div class="scroll-bottom"></div>
+      <div class="next-wrap-letter" id="nextWrapLetter">
+        <a href="reasons.html" class="btn btn-primary" onclick="showToast('Next up — 12 reasons I love you ✨')">Keep Going ✨</a>
+        <div class="tap-prompt" style="justify-content:center;margin-top:8px">👆 Tap to continue <span class="tap-arrow">✨</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+// Flowers
+const fc=document.getElementById('flowerContainer');
+['🌸','🌹','🌷'].forEach(f=>{
+  for(let i=0;i<2;i++){
+    const el=document.createElement('div');el.className='flower-rain';el.textContent=f;
+    el.style.cssText=`left:${Math.random()*100}%;font-size:${0.7+Math.random()*1}rem;animation-duration:${7+Math.random()*8}s;animation-delay:${Math.random()*6}s`;
+    fc.appendChild(el);
+  }
+});
+const hc=document.getElementById('hc');
+function spawnHeart(){
+  const h=document.createElement('div');h.className='heart-float';
+  h.textContent=['💖','💕','💗','🌹','💌'][Math.floor(Math.random()*5)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${8+Math.random()*6}s`;
+  hc.appendChild(h);setTimeout(()=>h.remove(),14000);
+}
+setInterval(spawnHeart,2500);
+
+const pianoNotes=['🎵','🎶','♪','♫','🎹'];
+function playPianoNote(){
+  const n=document.createElement('div');n.className='piano-flash';
+  n.textContent=pianoNotes[Math.floor(Math.random()*pianoNotes.length)];
+  document.body.appendChild(n);setTimeout(()=>n.remove(),400);
+}
+
+const letterText=`My dearest Jeenee,
+
+From the very first moment I saw you, something inside me changed forever. You walked into my life like the first ray of sunshine after a long, cold winter — and I have been warm ever since.
+
+Every single day with you is a gift I never knew I deserved, my jaan. Your laugh is my favourite sound in the entire world. Your smile is the reason I look forward to every morning.
+
+I love the way you care, the way you dream, the way you make even the most ordinary moments feel extraordinary, bubu. You are my best friend, my greatest adventure, and my safest place.
+
+No words will ever be enough to describe what you mean to me, sweetheart — but I promise to spend every day showing you, in every little way I can.
+
+You are my forever, my always, my everything. 💖`;
+
+document.getElementById('envelopeScene').addEventListener('click',function(){
+  document.getElementById('envelope').classList.add('open');
+  showToast('💌 Opening your letter...');
+  for(let i=0;i<18;i++){
+    const h=document.createElement('div');
+    h.style.cssText=`position:fixed;left:${15+Math.random()*70}%;top:${15+Math.random()*70}%;font-size:${1+Math.random()*2}rem;pointer-events:none;z-index:9999;animation:sparkleAnim 1s ease forwards;animation-delay:${Math.random()*0.4}s`;
+    h.textContent=['💖','💕','💗','💓','🌹'][Math.floor(Math.random()*5)];
+    document.body.appendChild(h);setTimeout(()=>h.remove(),1500);
+  }
+  setTimeout(()=>{
+    this.style.display='none';
+    const sc=document.getElementById('scrollContainer');
+    sc.classList.add('show');
+    showPop('📜','Your letter is unrolling...','Watch as the scroll opens and the words appear one by one 🌹<br/>Each letter plays a little piano note 🎹','I\'m ready 💕',()=>{
+      setTimeout(()=>{
+        document.getElementById('scrollBody').classList.add('unrolled');
+        setTimeout(()=>typeScroll(),800);
+      },300);
+    });
+  },1200);
+});
+
+function typeScroll(){
+  const el=document.getElementById('scrollText');
+  let i=0;
+  const chars=letterText.split('');
+  function typeChar(){
+    if(i<chars.length){
+      const c=chars[i];
+      if(c==='\n') el.innerHTML+='<br/>';
+      else{ el.innerHTML+=c; if(c.match(/[a-zA-Z]/)&&Math.random()<0.12) playPianoNote(); }
+      i++;setTimeout(typeChar,c==='\n'?200:26);
+    } else {
+      showToast('💌 Letter complete! 🌹');
+      setTimeout(()=>{
+        document.getElementById('scrollHearts').style.cssText='opacity:1;transition:opacity 0.8s ease';
+        setTimeout(()=>{
+          document.getElementById('scrollSign').style.cssText='opacity:1;transition:opacity 0.8s ease';
+          setTimeout(()=>document.getElementById('nextWrapLetter').style.opacity='1',600);
+        },600);
+      },400);
+    }
+  }
+  typeChar();
+}
+
+setupAudio('audio/audio3.mp3');
+</script>
+</body>
+</html>

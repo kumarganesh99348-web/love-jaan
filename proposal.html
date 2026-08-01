@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>💍 Will You Be Mine?</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  body{background:radial-gradient(ellipse at 50% 30%,#1a0030 0%,#0d0020 50%,#000510 100%);overflow-x:hidden}
+
+  .proposal-wrap{text-align:center;max-width:560px;width:100%;position:relative;z-index:2}
+
+  /* ── Scene ── */
+  .scene{position:relative;width:260px;height:320px;margin:0 auto 24px;perspective:600px}
+
+  /* Ground */
+  .ground{position:absolute;bottom:0;left:0;width:100%;height:40px;background:linear-gradient(to top,rgba(255,107,157,0.15),transparent);border-radius:50%;filter:blur(8px)}
+
+  /* Character body */
+  .char{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);width:80px;animation:charIdle 2s ease-in-out infinite}
+  @keyframes charIdle{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(-6px)}}
+
+  /* Head */
+  .head{width:52px;height:52px;background:linear-gradient(135deg,#ffcc99,#ffb380);border-radius:50%;margin:0 auto;position:relative;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+  .head::before{content:'';position:absolute;top:14px;left:10px;width:8px;height:8px;background:#5c3317;border-radius:50%;box-shadow:16px 0 0 #5c3317}
+  .head::after{content:'';position:absolute;bottom:12px;left:50%;transform:translateX(-50%);width:18px;height:8px;border-bottom:3px solid #c0392b;border-radius:0 0 50% 50%}
+  .hair{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:54px;height:28px;background:#3d1a00;border-radius:50% 50% 0 0;z-index:1}
+  .blush{position:absolute;top:22px;width:10px;height:6px;background:rgba(255,100,100,0.5);border-radius:50%}
+  .blush.l{left:4px}.blush.r{right:4px}
+
+  /* Body */
+  .body{width:48px;height:56px;background:linear-gradient(135deg,#ff6b9d,#c2185b);border-radius:12px 12px 8px 8px;margin:0 auto;position:relative;box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+  .body::before{content:'💗';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.2rem}
+
+  /* Kneeling pose — right leg bent */
+  .legs{display:flex;justify-content:center;gap:6px;margin-top:2px}
+  .leg{width:14px;height:32px;background:linear-gradient(to bottom,#3d1a6e,#2d0d5e);border-radius:7px}
+  .leg.r{height:20px;transform:rotate(40deg) translateY(8px)}
+
+  /* Arms */
+  .arms{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:80px;display:flex;justify-content:space-between}
+  .arm{width:12px;height:36px;background:linear-gradient(to bottom,#ff6b9d,#c2185b);border-radius:6px}
+  .arm.r{transform:rotate(-50deg) translateY(-8px);transform-origin:top center}
+  .arm.l{transform:rotate(20deg);transform-origin:top center}
+
+  /* Ring box held up */
+  .ring-box-wrap{position:absolute;top:30px;right:-10px;animation:ringFloat 1.5s ease-in-out infinite}
+  @keyframes ringFloat{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
+  .ring-box{width:36px;height:30px;background:linear-gradient(135deg,#8B0000,#c0392b);border-radius:4px;position:relative;box-shadow:0 4px 12px rgba(0,0,0,0.5)}
+  .ring-box::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:36px;height:12px;background:linear-gradient(135deg,#a00000,#e74c3c);border-radius:4px 4px 0 0}
+  .ring-box::after{content:'💍';position:absolute;top:-28px;left:50%;transform:translateX(-50%);font-size:1.3rem;animation:ringSparkle 1s ease-in-out infinite}
+  @keyframes ringSparkle{0%,100%{filter:drop-shadow(0 0 4px gold)}50%{filter:drop-shadow(0 0 12px gold) drop-shadow(0 0 20px rgba(255,215,0,0.8))}}
+
+  /* Rose in left hand */
+  .rose-wrap{position:absolute;top:50px;left:-14px;animation:roseWave 2s ease-in-out infinite}
+  @keyframes roseWave{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
+  .rose-stem{width:4px;height:40px;background:linear-gradient(to bottom,#2d8a2d,#1a5c1a);border-radius:2px;margin:0 auto}
+  .rose-head{font-size:1.6rem;margin-bottom:-4px;filter:drop-shadow(0 0 6px rgba(255,50,50,0.6))}
+
+  /* Stars around */
+  .sparkle-star{position:absolute;font-size:1rem;animation:starTwinkle 1.5s ease-in-out infinite}
+  @keyframes starTwinkle{0%,100%{opacity:0.3;transform:scale(0.8)}50%{opacity:1;transform:scale(1.2)}}
+
+  /* Question */
+  .question{font-family:'Dancing Script',cursive;font-size:clamp(1.8rem,6vw,2.8rem);color:#fff;text-shadow:0 0 30px rgba(255,107,157,0.8);margin-bottom:8px;animation:questionPulse 2s ease-in-out infinite}
+  @keyframes questionPulse{0%,100%{text-shadow:0 0 20px rgba(255,107,157,0.6)}50%{text-shadow:0 0 40px rgba(255,107,157,1),0 0 60px rgba(255,107,157,0.4)}}
+
+  .sub-text{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(0.9rem,2.5vw,1.05rem);color:rgba(255,200,220,0.8);margin-bottom:28px;line-height:1.7}
+
+  /* Buttons */
+  .proposal-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+  .yes-btn{padding:16px 44px;border-radius:50px;background:linear-gradient(135deg,#ff6b9d,#c2185b);color:#fff;border:none;font-size:1.1rem;cursor:pointer;font-family:'Poppins',sans-serif;font-weight:600;box-shadow:0 6px 28px rgba(255,77,125,0.6);transition:all 0.3s;animation:yesPulse 1.5s ease-in-out infinite}
+  @keyframes yesPulse{0%,100%{box-shadow:0 6px 28px rgba(255,77,125,0.5)}50%{box-shadow:0 6px 40px rgba(255,77,125,0.9),0 0 60px rgba(255,107,157,0.3)}}
+  .yes-btn:hover{transform:translateY(-4px) scale(1.08)}
+  .no-btn{padding:16px 32px;border-radius:50px;background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.15);font-size:1rem;cursor:pointer;font-family:'Poppins',sans-serif;transition:all 0.3s}
+  .no-btn:hover{transform:translateY(-2px)}
+
+  /* Accepted state */
+  .accepted-section{display:none}
+  .accepted-section.show{display:block;animation:pageIn 0.8s ease forwards}
+
+  .big-ring{font-size:5rem;display:block;margin-bottom:12px;animation:ringBig 1.5s ease-in-out infinite}
+  @keyframes ringBig{0%,100%{transform:scale(1) rotate(-5deg);filter:drop-shadow(0 0 10px gold)}50%{transform:scale(1.15) rotate(5deg);filter:drop-shadow(0 0 30px gold)}}
+
+  .accepted-title{font-family:'Dancing Script',cursive;font-size:clamp(2rem,7vw,3.5rem);color:var(--gold);text-shadow:0 0 30px rgba(255,215,0,0.7);margin-bottom:8px}
+
+  .sorry-text{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(0.92rem,2.4vw,1.05rem);line-height:1.9;color:rgba(255,220,235,0.9);text-align:left;margin:20px 0}
+  .sorry-text p{margin-bottom:14px;opacity:0;animation:fadeUp 0.7s ease forwards}
+  .sorry-text p:nth-child(1){animation-delay:0.3s}
+  .sorry-text p:nth-child(2){animation-delay:0.9s}
+  .sorry-text p:nth-child(3){animation-delay:1.5s}
+  .sorry-text p:nth-child(4){animation-delay:2.1s}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+  .final-sign{font-family:'Dancing Script',cursive;font-size:clamp(1.4rem,4vw,2rem);color:var(--pink);text-align:right;margin-top:8px;opacity:0;animation:fadeUp 0.7s 2.8s ease forwards}
+
+  .next-wrap-prop{margin-top:24px;opacity:0;animation:fadeUp 0.7s 3.4s ease forwards}
+</style>
+</head>
+<body>
+<div class="hearts-bg" id="hc"></div>
+<canvas id="confettiCanvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;display:none"></canvas>
+
+<div class="section page-enter">
+  <div class="proposal-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot done"></div><div class="dot done"></div><div class="dot active"></div>
+    </div>
+
+    <!-- Proposal scene -->
+    <div id="proposalScene">
+      <div class="scene">
+        <div class="ground"></div>
+        <!-- Sparkle stars -->
+        <div class="sparkle-star" style="top:20px;left:20px;animation-delay:0s">✨</div>
+        <div class="sparkle-star" style="top:10px;right:30px;animation-delay:0.5s">💫</div>
+        <div class="sparkle-star" style="top:60px;left:10px;animation-delay:1s">⭐</div>
+        <div class="sparkle-star" style="top:40px;right:10px;animation-delay:0.3s">✨</div>
+        <div class="sparkle-star" style="bottom:80px;left:5px;animation-delay:0.8s">💫</div>
+
+        <div class="char">
+          <!-- Rose in left hand -->
+          <div class="rose-wrap">
+            <div class="rose-head">🌹</div>
+            <div class="rose-stem"></div>
+          </div>
+          <!-- Ring box in right hand -->
+          <div class="ring-box-wrap">
+            <div class="ring-box"></div>
+          </div>
+          <!-- Head -->
+          <div class="head">
+            <div class="hair"></div>
+            <div class="blush l"></div>
+            <div class="blush r"></div>
+          </div>
+          <!-- Body -->
+          <div class="body">
+            <div class="arms">
+              <div class="arm l"></div>
+              <div class="arm r"></div>
+            </div>
+          </div>
+          <!-- Legs -->
+          <div class="legs">
+            <div class="leg l"></div>
+            <div class="leg r"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="question">Will you be mine, Jeenee? 💍</div>
+      <p class="sub-text">
+        You are my everything, bubu — my heart, my home, my forever.<br/>
+        I want to love you every single day, sweetheart. 🌹
+      </p>
+
+      <div class="proposal-btns">
+        <button class="yes-btn" id="yesBtn">Yes, always! 💖</button>
+        <button class="no-btn" id="noBtn">Maybe later 🙈</button>
+      </div>
+      <p style="font-size:0.75rem;color:rgba(255,255,255,0.2);margin-top:12px">👆 Tap your answer 💕</p>
+    </div>
+
+    <!-- Accepted section -->
+    <div class="glass accepted-section" id="acceptedSection" style="padding:36px 28px">
+      <span class="big-ring">💍</span>
+      <div class="accepted-title">She said YES! 🎉</div>
+      <p style="font-family:'Dancing Script',cursive;font-size:1.2rem;color:rgba(255,200,220,0.9);margin-bottom:20px">
+        Thank you, Jeenee... you just made me the happiest person alive, my jaan. 🥺
+      </p>
+
+      <div class="sorry-text">
+        <p>And now, with all my heart — I'm sorry, bubu. Sorry for every moment I hurt you, every time I made you feel less than the queen you are.</p>
+        <p>I'm sorry for the times I was careless with your feelings, sweetheart, for the moments I chose wrong, for every tear I caused those beautiful eyes.</p>
+        <p>You never deserved any of that pain, my jaan. You deserved patience, kindness, and someone who always chose you — and I promise, from this day forward, that person is me.</p>
+        <p>I love you more than any words could ever hold, Jeenee. Thank you for forgiving me. Thank you for still being here. 🌹</p>
+      </div>
+      <div class="final-sign">Forever yours, always 🌹</div>
+
+      <div class="next-wrap-prop">
+        <a href="final.html" class="btn btn-primary pulse" onclick="showToast('The final moment... 💖')">The Final Moment 💖</a>
+        <div class="tap-prompt" style="justify-content:center;margin-top:8px">👆 Tap to finish <span class="tap-arrow">💖</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+<audio id="bgMusic" loop><source src="audio/audio9.mp3" type="audio/mpeg"/></audio>
+
+<script>
+// Hearts
+const hc=document.getElementById('hc');
+function spawnHeart(){
+  const h=document.createElement('div');h.className='heart-float';
+  h.textContent=['💖','💕','💍','🌹','✨'][Math.floor(Math.random()*5)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${8+Math.random()*6}s`;
+  hc.appendChild(h);setTimeout(()=>h.remove(),15000);
+}
+setInterval(spawnHeart,2000);
+
+// No button — runs away
+const noBtn=document.getElementById('noBtn');
+noBtn.addEventListener('mouseover',function(){
+  const maxX=window.innerWidth-this.offsetWidth-20;
+  const maxY=window.innerHeight-this.offsetHeight-20;
+  this.style.position='fixed';
+  this.style.left=Math.random()*maxX+'px';
+  this.style.top=Math.random()*maxY+'px';
+  this.style.zIndex='999';
+});
+noBtn.addEventListener('click',function(){
+  this.textContent='Nope! 😜';
+  showToast('Hehe, you can\'t click that! 😜');
+});
+
+// Yes button
+document.getElementById('yesBtn').addEventListener('click',function(){
+  // Confetti burst
+  const canvas=document.getElementById('confettiCanvas');
+  canvas.style.display='block';
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const ctx=canvas.getContext('2d');
+  const pieces=[];
+  const emojis=['💍','💖','🌹','✨','🎉','💕','🌸','💫'];
+  for(let i=0;i<80;i++){
+    pieces.push({
+      x:Math.random()*canvas.width,y:-20,
+      vx:(Math.random()-0.5)*6,vy:2+Math.random()*4,
+      emoji:emojis[Math.floor(Math.random()*emojis.length)],
+      size:0.8+Math.random()*1.5,life:1
+    });
+  }
+  function drawConfetti(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let alive=false;
+    pieces.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;p.vy+=0.05;p.life-=0.008;
+      if(p.life>0&&p.y<canvas.height){
+        alive=true;
+        ctx.save();ctx.globalAlpha=p.life;
+        ctx.font=`${p.size*24}px serif`;
+        ctx.fillText(p.emoji,p.x,p.y);
+        ctx.restore();
+      }
+    });
+    if(alive) requestAnimationFrame(drawConfetti);
+    else canvas.style.display='none';
+  }
+  drawConfetti();
+
+  if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
+  showToast('💍 She said YES! 🎉');
+
+  setTimeout(()=>{
+    document.getElementById('proposalScene').style.display='none';
+    document.getElementById('acceptedSection').classList.add('show');
+  },800);
+});
+
+setupAudio('audio/audio9.mp3');
+</script>
+</body>
+</html>

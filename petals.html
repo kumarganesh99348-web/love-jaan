@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🌹 Always Yours, Jeenee</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  body { background: linear-gradient(135deg,#0d001a 0%,#1a0030 35%,#0a1020 65%,#000d0a 100%); }
+
+  .final-wrap { text-align:center; max-width:620px; width:100%; position:relative; z-index:2; }
+  .final-card { padding:48px 36px; }
+  .page-label { font-size:0.8rem; color:rgba(255,255,255,0.3); letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
+
+  /* Big rose */
+  .big-rose { font-size:5.5rem; display:block; margin-bottom:12px; animation:roseFloat 3s ease-in-out infinite; }
+  @keyframes roseFloat { 0%,100%{transform:translateY(0) rotate(-6deg) scale(1)} 50%{transform:translateY(-18px) rotate(6deg) scale(1.08)} }
+
+  /* Poem */
+  .poem { font-family:'Playfair Display',serif; font-style:italic; font-size:clamp(1rem,2.8vw,1.18rem); line-height:2.1; color:rgba(255,210,225,0.92); margin:24px 0; }
+  .poem span { display:block; opacity:0; animation:fadeUp 0.8s ease forwards; }
+  .poem span:nth-child(1){animation-delay:0.3s} .poem span:nth-child(2){animation-delay:0.9s}
+  .poem span:nth-child(3){animation-delay:1.5s} .poem span:nth-child(4){animation-delay:2.1s}
+  .poem span:nth-child(5){animation-delay:2.7s} .poem span:nth-child(6){animation-delay:3.3s}
+  .poem span:nth-child(7){animation-delay:3.9s} .poem span:nth-child(8){animation-delay:4.5s}
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  .petal-count { font-family:'Dancing Script',cursive; font-size:1.15rem; color:rgba(255,150,180,0.65); margin:16px 0; }
+
+  /* Final message */
+  .final-msg { opacity:0; animation:fadeUp 0.8s 5.2s ease forwards; }
+  .final-sign { font-family:'Dancing Script',cursive; font-size:clamp(1.6rem,5vw,2.4rem); color:var(--pink); margin:20px 0 8px; text-shadow:0 0 20px rgba(255,107,157,0.4); }
+  .restart-hint { font-size:0.82rem; color:rgba(255,255,255,0.3); margin-top:10px; }
+
+  /* Petals */
+  .petal-emoji { position:fixed; pointer-events:none; z-index:1; animation:petalDrift linear infinite; }
+  @keyframes petalDrift {
+    0%   { transform:translateY(-60px) rotate(0deg) translateX(0); opacity:0; }
+    5%   { opacity:1; }
+    95%  { opacity:0.8; }
+    100% { transform:translateY(112vh) rotate(540deg) translateX(35px); opacity:0; }
+  }
+
+  /* Cartoon characters dancing at the end */
+  .char-left  { position:fixed; bottom:40px; left:16px; font-size:3rem; z-index:3; animation:charDance 1.5s ease-in-out infinite; }
+  .char-right { position:fixed; bottom:40px; right:16px; font-size:3rem; z-index:3; animation:charDance 1.5s ease-in-out infinite 0.3s; }
+  @keyframes charDance {
+    0%,100%{ transform:translateY(0) rotate(-8deg) scale(1); }
+    25%    { transform:translateY(-16px) rotate(0deg) scale(1.1); }
+    50%    { transform:translateY(-8px) rotate(8deg) scale(1.05); }
+    75%    { transform:translateY(-20px) rotate(0deg) scale(1.12); }
+  }
+  .char-top { position:fixed; top:80px; left:50%; transform:translateX(-50%); font-size:2.5rem; z-index:3; animation:charFloat 2s ease-in-out infinite; }
+  @keyframes charFloat { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(-14px)} }
+</style>
+</head>
+<body>
+<div class="hearts-bg" id="hc"></div>
+
+<!-- Dancing cartoon characters at the end -->
+<div class="char-left">🧸</div>
+<div class="char-right">🐰</div>
+<div class="char-top">🦋</div>
+
+<div class="section page-enter">
+  <div class="final-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot done"></div><div class="dot active"></div><div class="dot"></div>
+    </div>
+
+    <div class="glass final-card">
+      <p class="page-label">The Final Chapter · Always 🌹</p>
+      <span class="big-rose">🌹</span>
+      <h1 class="title-script" style="margin-bottom:16px">Always Yours, Jeenee 🌸</h1>
+
+      <div class="poem">
+        <span>"Like petals falling softly,</span>
+        <span>my love drifts down to you —</span>
+        <span>gentle, endless, beautiful,</span>
+        <span>in every shade of rose.</span>
+        <span>Each petal is a moment,</span>
+        <span>each moment is my love,</span>
+        <span>and every single one of them</span>
+        <span>belongs to you, Jeenee. 🌹"</span>
+      </div>
+
+      <div class="petal-count" id="petalCount">🌸 0 petals fallen just for you</div>
+
+      <div class="final-msg">
+        <div class="final-sign">Forever & Always Yours 💖</div>
+        <p class="subtitle" style="margin-bottom:24px">
+          Thank you for going through this little journey with me, Jeenee.<br/>
+          Every page was made with love, bubu — just for you. 💕
+        </p>
+        <a href="proposal.html" class="btn btn-primary pulse" onclick="showToast('One last beautiful surprise... 🌹')">One Last Surprise 🌹</a>
+        <div class="tap-prompt" style="justify-content:center;margin-top:8px">👆 Tap for the final moment <span class="tap-arrow">💖</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+// Petals
+const petalEmojis=['🌸','🌺','🌹','🌷','💮','🍀','🌼'];
+let petalCount=0;
+const countEl=document.getElementById('petalCount');
+function spawnPetal(){
+  const p=document.createElement('div'); p.className='petal-emoji';
+  const dur=6+Math.random()*8;
+  p.textContent=petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+  p.style.cssText=`left:${Math.random()*100}%;top:-60px;font-size:${0.7+Math.random()*1.5}rem;animation-duration:${dur}s`;
+  document.body.appendChild(p);
+  petalCount++; countEl.textContent=`🌸 ${petalCount} petals fallen just for you`;
+  setTimeout(()=>p.remove(),(dur+0.5)*1000);
+}
+setInterval(spawnPetal,500);
+for(let i=0;i<12;i++) setTimeout(spawnPetal,i*150);
+
+// Hearts
+const hc=document.getElementById('hc');
+const em=['💖','💕','🌹','🌸','💗','✨','💫'];
+function spawnHeart(){
+  const h=document.createElement('div'); h.className='heart-float';
+  h.textContent=em[Math.floor(Math.random()*em.length)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${8+Math.random()*7}s`;
+  hc.appendChild(h); setTimeout(()=>h.remove(),15000);
+}
+setInterval(spawnHeart,2500);
+
+// Sparkles on click
+document.addEventListener('click',e=>{
+  for(let k=0;k<8;k++){
+    const sp=document.createElement('div');
+    sp.style.cssText=`position:fixed;left:${e.clientX+(-30+Math.random()*60)}px;top:${e.clientY+(-30+Math.random()*60)}px;font-size:${0.8+Math.random()*1.2}rem;pointer-events:none;z-index:9999;animation:sparkleAnim 0.8s ease forwards`;
+    sp.textContent=petalEmojis[Math.floor(Math.random()*petalEmojis.length)];
+    document.body.appendChild(sp); setTimeout(()=>sp.remove(),800);
+  }
+});
+
+setupAudio('audio/audio9.mp3');
+</script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>📸 Our Memories</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  body{background:linear-gradient(135deg,#0d0020 0%,#1a0035 40%,#0a1530 70%,#000d1a 100%)}
+  .memories-wrap{width:100%;max-width:700px;text-align:center}
+  .page-label{font-size:0.8rem;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+  .doors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+  .door-card{padding:32px 16px;border-radius:20px;cursor:pointer;background:rgba(255,255,255,0.06);border:1px solid rgba(255,107,157,0.25);backdrop-filter:blur(12px);transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative;overflow:hidden}
+  .door-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,107,157,0.15),transparent 70%);opacity:0;transition:opacity 0.3s}
+  .door-card:hover::before,.door-card.opened::before{opacity:1}
+  .door-card:hover{transform:translateY(-6px) scale(1.04);border-color:rgba(255,107,157,0.6);box-shadow:0 12px 40px rgba(255,77,125,0.3)}
+  .door-card.opened{background:rgba(255,107,157,0.15);border-color:var(--pink);pointer-events:none}
+  .door-icon{font-size:2.4rem;display:block;margin-bottom:10px;animation:doorGlow 2s ease-in-out infinite}
+  @keyframes doorGlow{0%,100%{filter:drop-shadow(0 0 4px rgba(255,107,157,0.4))}50%{filter:drop-shadow(0 0 12px rgba(255,107,157,0.9))}}
+  .door-label{font-size:0.85rem;color:rgba(255,255,255,0.8);font-weight:500}
+  .door-hint{font-size:0.72rem;color:rgba(255,255,255,0.35);margin-top:4px}
+  .polaroid-stage{position:relative;width:100%;max-width:300px;margin:0 auto 20px;height:300px}
+  .polaroid{position:absolute;top:0;left:50%;transform:translateX(-50%) translateY(-120px);opacity:0;transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1);background:#fff;padding:10px 10px 36px;border-radius:4px;box-shadow:0 8px 32px rgba(0,0,0,0.5);width:240px;cursor:pointer}
+  .polaroid.dropped{opacity:1;transform:translateX(-50%) translateY(0) rotate(var(--rot))}
+  .polaroid.stacked{opacity:0.5;transform:translateX(calc(-50% + var(--sx))) translateY(var(--sy)) rotate(var(--rot)) scale(0.9)}
+  .polaroid-img{width:100%;aspect-ratio:1;background:linear-gradient(135deg,rgba(255,107,157,0.2),rgba(180,0,100,0.3));border-radius:2px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+  .polaroid-img img{width:100%;height:100%;object-fit:cover}
+  .polaroid-img .p-emoji{font-size:3.5rem}
+  .polaroid-caption{font-family:'Dancing Script',cursive;font-size:0.95rem;color:#333;text-align:center;margin-top:6px;line-height:1.3}
+  .petal-mix{position:fixed;top:-40px;pointer-events:none;z-index:1;animation:petalFall linear infinite}
+  @keyframes petalFall{0%{transform:translateY(0) rotate(0deg) translateX(0);opacity:1}50%{transform:translateY(50vh) rotate(180deg) translateX(25px);opacity:0.8}100%{transform:translateY(108vh) rotate(360deg) translateX(-15px);opacity:0}}
+  .slide-counter{font-size:0.82rem;color:rgba(255,255,255,0.4);margin-bottom:12px}
+  .all-seen{display:none;animation:pageIn 0.8s ease forwards}
+  .all-seen.show{display:block}
+</style>
+</head>
+<body>
+<div class="hearts-bg" id="hc"></div>
+<div class="cartoon-char teddy-slide">🧸</div>
+
+<div class="section page-enter">
+  <div class="memories-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot active"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <p class="page-label">Chapter 2 · Our Story</p>
+    <h1 class="title-script" style="margin-bottom:6px">Our Memories 📸</h1>
+    <p class="subtitle" style="margin-bottom:6px">Choose a door to unlock a memory, bubu 💕</p>
+    <p style="font-size:0.8rem;color:rgba(255,255,255,0.35);margin-bottom:20px">👆 Tap a glowing door to open it</p>
+
+    <div id="doorsSection">
+      <div class="doors-grid">
+        <div class="door-card" onclick="openDoor(0,this)">
+          <span class="door-icon">🚪</span>
+          <div class="door-label">First Smile</div>
+          <div class="door-hint">👆 tap to open</div>
+        </div>
+        <div class="door-card" onclick="openDoor(1,this)">
+          <span class="door-icon">🚪</span>
+          <div class="door-label">Adventures</div>
+          <div class="door-hint">👆 tap to open</div>
+        </div>
+        <div class="door-card" onclick="openDoor(2,this)">
+          <span class="door-icon">🚪</span>
+          <div class="door-label">A Little Letter</div>
+          <div class="door-hint">👆 tap to open</div>
+        </div>
+      </div>
+      <p style="font-size:0.78rem;color:rgba(255,255,255,0.3)">Open all 3 doors to see our memories 🌸</p>
+    </div>
+
+    <div class="polaroid-stage" id="polaroidStage" style="display:none">
+      <!-- photos/photo1.jpg → photos/photo5.jpg -->
+      <div class="polaroid" id="pol0" style="--rot:-4deg;--sx:-20px;--sy:10px">
+        <div class="polaroid-img"><img src="photos/IMG_5380.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Memory 1"/><span class="p-emoji" style="display:none">🌅</span></div>
+        <div class="polaroid-caption">"One of my favourite days, my jaan." 💕</div>
+      </div>
+      <div class="polaroid" id="pol1" style="--rot:3deg;--sx:15px;--sy:8px">
+        <div class="polaroid-img"><img src="photos/IMG_5381.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Memory 2"/><span class="p-emoji" style="display:none">🌹</span></div>
+        <div class="polaroid-caption">"I'll always remember this smile, sweetheart." 🌹</div>
+      </div>
+      <div class="polaroid" id="pol2" style="--rot:-2deg;--sx:-10px;--sy:5px">
+        <div class="polaroid-img"><img src="photos/IMG_5382.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Memory 3"/><span class="p-emoji" style="display:none">✈️</span></div>
+        <div class="polaroid-caption">"Every adventure is better with you, bubu." ✈️</div>
+      </div>
+      <div class="polaroid" id="pol3" style="--rot:5deg;--sx:20px;--sy:12px">
+        <div class="polaroid-img"><img src="photos/IMG_5383.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Memory 4"/><span class="p-emoji" style="display:none">😂</span></div>
+        <div class="polaroid-caption">"The laughs I never want to forget, my love." 😂</div>
+      </div>
+      <div class="polaroid" id="pol4" style="--rot:-3deg;--sx:-15px;--sy:6px">
+        <div class="polaroid-img"><img src="photos/IMG_5388.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Memory 5"/><span class="p-emoji" style="display:none">💖</span></div>
+        <div class="polaroid-caption">"Forever & always, Jeenee." 💖</div>
+      </div>
+      <div class="polaroid" id="pol5" style="--rot:2deg;--sx:10px;--sy:4px">
+        <div class="polaroid-img"><img src="photos/IMG_5403.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Memory 6"/><span class="p-emoji" style="display:none">🌟</span></div>
+        <div class="polaroid-caption">"This one makes me smile every time, baby." 🌟</div>
+      </div>
+      <div class="polaroid" id="pol6" style="--rot:-5deg;--sx:-8px;--sy:9px">
+        <div class="polaroid-img"><img src="photos/IMG_5414.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Memory 7"/><span class="p-emoji" style="display:none">💞</span></div>
+        <div class="polaroid-caption">"You looked so beautiful here, my queen." 💞</div>
+      </div>
+      <div class="polaroid" id="pol7" style="--rot:4deg;--sx:18px;--sy:7px">
+        <div class="polaroid-img"><img src="photos/IMG_5415.JPG" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" alt="Memory 8"/><span class="p-emoji" style="display:none">💋</span></div>
+        <div class="polaroid-caption">"My favourite person in the whole world, Jeenee." 💋</div>
+      </div>
+    </div>
+
+    <div class="slide-counter" id="slideCounter" style="display:none"></div>
+
+    <div class="glass all-seen" id="allSeen" style="padding:28px;margin-top:8px">
+      <p style="font-family:'Dancing Script',cursive;font-size:1.4rem;color:rgba(255,200,220,0.9);margin-bottom:20px">"Every memory with you is my favourite, bubu 💕"</p>
+      <a href="letter.html" class="btn btn-primary">Read My Letter 💌</a>
+      <div class="tap-prompt">👆 Tap to continue <span class="tap-arrow">💌</span></div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+// Petals
+const petalMix=['🌸','🌹','✨','❤️'];
+for(let i=0;i<10;i++){
+  const p=document.createElement('div');p.className='petal-mix';
+  p.textContent=petalMix[Math.floor(Math.random()*petalMix.length)];
+  p.style.cssText=`left:${Math.random()*100}%;font-size:${0.7+Math.random()*1}rem;animation-duration:${6+Math.random()*8}s;animation-delay:${Math.random()*7}s`;
+  document.body.appendChild(p);
+}
+const hc=document.getElementById('hc');
+function spawnHeart(){
+  const h=document.createElement('div');h.className='heart-float';
+  h.textContent=['💖','💕','💗','🌹','🌸'][Math.floor(Math.random()*5)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${8+Math.random()*6}s`;
+  hc.appendChild(h);setTimeout(()=>h.remove(),14000);
+}
+setInterval(spawnHeart,2500);
+
+// Doors
+let doorsOpened=0;
+const doorToasts=['🌅 First Smile unlocked! 💕','✈️ Adventures unlocked! 🗺️','💌 A Little Letter unlocked! 📖'];
+function openDoor(idx,el){
+  if(el.classList.contains('opened')) return;
+  el.classList.add('opened');
+  el.querySelector('.door-icon').textContent='✅';
+  el.querySelector('.door-label').textContent='Opened!';
+  el.querySelector('.door-hint').textContent='';
+  doorsOpened++;
+  showToast(doorToasts[idx]);
+  const rect=el.getBoundingClientRect();
+  sparkleAt(rect.left+rect.width/2, rect.top+rect.height/2, 14);
+  if(doorsOpened===3){
+    setTimeout(()=>{
+      showPop('📸','All doors open!','Now watch our memories appear one by one 💕<br/>They\'ll drop down like Polaroid photos 🌸','Show me! 💖',()=>{
+        document.getElementById('doorsSection').style.display='none';
+        showPolaroids();
+      });
+    },400);
+  }
+}
+
+// Polaroids
+let currentPol=0;
+const polIds=['pol0','pol1','pol2','pol3','pol4','pol5','pol6','pol7'];
+function showPolaroids(){
+  document.getElementById('polaroidStage').style.display='block';
+  document.getElementById('slideCounter').style.display='block';
+  dropNext();
+}
+function dropNext(){
+  if(currentPol>=polIds.length){
+    setTimeout(()=>document.getElementById('allSeen').classList.add('show'),600);
+    return;
+  }
+  if(currentPol>0){
+    document.getElementById(polIds[currentPol-1]).classList.add('stacked');
+    document.getElementById(polIds[currentPol-1]).classList.remove('dropped');
+  }
+  document.getElementById(polIds[currentPol]).classList.add('dropped');
+  document.getElementById('slideCounter').textContent=`📸 ${currentPol+1} / ${polIds.length}`;
+  showToast(`📸 Memory ${currentPol+1} of ${polIds.length}`);
+  currentPol++;
+  if(currentPol<polIds.length) setTimeout(dropNext,2800);
+  else setTimeout(()=>document.getElementById('allSeen').classList.add('show'),1200);
+}
+
+setupAudio('audio/audio2.mp3');
+</script>
+</body>
+</html>

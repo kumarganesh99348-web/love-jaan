@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>💖 Hey Jeenee, my love...</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  body{background:#000;overflow-x:hidden}
+  .aurora{position:fixed;inset:0;z-index:0;overflow:hidden}
+  .aurora-band{position:absolute;width:200%;height:300px;border-radius:50%;filter:blur(60px);opacity:0.25;animation:auroraDrift linear infinite}
+  .aurora-band:nth-child(1){background:linear-gradient(90deg,#ff6b9d,#c2185b,transparent);top:10%;animation-duration:18s}
+  .aurora-band:nth-child(2){background:linear-gradient(90deg,transparent,#7c4dff,#00bcd4,transparent);top:30%;animation-duration:24s;animation-delay:-6s}
+  .aurora-band:nth-child(3){background:linear-gradient(90deg,#ff9800,transparent,#e91e63,transparent);top:55%;animation-duration:20s;animation-delay:-10s}
+  @keyframes auroraDrift{0%{transform:translateX(-50%) scaleY(1)}50%{transform:translateX(0%) scaleY(1.3)}100%{transform:translateX(-50%) scaleY(1)}}
+  .stars-layer{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:twinkle 3s infinite}
+  @keyframes twinkle{0%,100%{opacity:0.15;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+  .shooting-star{position:fixed;pointer-events:none;z-index:2}
+  .shooting-star-trail{height:2px;background:linear-gradient(90deg,rgba(255,255,255,0.8),transparent);border-radius:2px;animation:shootTrail 1.2s ease forwards}
+  @keyframes shootTrail{0%{width:0;opacity:1}100%{width:120px;opacity:0}}
+  .hero{text-align:center;max-width:600px;width:100%;position:relative;z-index:2}
+  .hero-card{padding:52px 40px}
+  .main-heart{font-size:5rem;display:block;margin-bottom:8px;animation:heartbeat 1.4s ease-in-out infinite}
+  @keyframes heartbeat{0%,100%{transform:scale(1);filter:drop-shadow(0 0 10px rgba(255,107,157,0.5))}14%{transform:scale(1.2);filter:drop-shadow(0 0 25px rgba(255,107,157,0.9))}28%{transform:scale(1)}42%{transform:scale(1.15)}70%{transform:scale(1)}}
+  .typed-name{font-family:'Dancing Script',cursive;font-size:clamp(3rem,10vw,6rem);color:var(--pink);line-height:1;text-shadow:0 0 40px rgba(255,107,157,0.5);min-height:1.2em}
+  .cursor{display:inline-block;width:3px;height:0.8em;background:var(--pink);margin-left:4px;animation:cursorBlink 0.8s infinite;vertical-align:middle}
+  @keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+  .greeting{font-family:'Dancing Script',cursive;font-size:clamp(1rem,3vw,1.3rem);color:rgba(255,200,220,0.85);margin:12px 0 6px}
+  .tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:clamp(0.9rem,2.5vw,1.05rem);color:rgba(255,255,255,0.6);margin-bottom:28px;line-height:1.7}
+  .fortune-wrap{margin:20px 0}
+  .fortune-btn{padding:10px 28px;border-radius:50px;background:rgba(255,215,0,0.15);border:1px solid rgba(255,215,0,0.4);color:rgba(255,215,0,0.9);font-size:0.88rem;cursor:pointer;transition:all 0.3s;backdrop-filter:blur(8px)}
+  .fortune-btn:hover{background:rgba(255,215,0,0.25);transform:scale(1.05)}
+  .fortune-text{font-family:'Dancing Script',cursive;font-size:1.1rem;color:rgba(255,215,0,0.9);margin-top:10px;min-height:1.5rem}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  .secret-btn{position:fixed;bottom:28px;left:28px;font-size:1.1rem;cursor:pointer;opacity:0.15;transition:opacity 0.3s;z-index:200;background:none;border:none;}
+  .secret-btn:hover{opacity:0.7}
+</style>
+</head>
+<body>
+<div class="aurora"><div class="aurora-band"></div><div class="aurora-band"></div><div class="aurora-band"></div></div>
+<div class="stars-layer" id="starsLayer"></div>
+<div class="hearts-bg" id="hc"></div>
+<div class="cartoon-char teddy-slide">🧸</div>
+<button class="secret-btn" onclick="location.href='secret.html'" title="shhh 🤫">🤍</button>
+
+<div class="section page-enter">
+  <div class="hero">
+    <div class="progress-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="glass hero-card">
+      <span class="main-heart">💖</span>
+      <p class="greeting">Hey, my sweetheart...</p>
+      <div class="typed-name" id="typedName"><span class="cursor"></span></div>
+      <p class="tagline" id="subText" style="opacity:0">
+        I made something just for you, my jaan 🌸<br/>
+        A little journey through my heart — no rush, just feel it 💕
+      </p>
+      <div class="fortune-wrap" id="fortuneWrap" style="opacity:0">
+        <button class="fortune-btn" id="fortuneBtn">🥠 Tap for a fortune</button>
+        <div class="fortune-text" id="fortuneText"></div>
+      </div>
+      <div id="nextWrap" style="opacity:0;margin-top:28px;text-align:center">
+        <a href="memories.html" class="btn btn-primary pulse" onclick="showToast('Starting your journey... 💕')">Let's Begin 💕</a>
+        <div class="tap-prompt">👆 Tap the button above to start <span class="tap-arrow">💝</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+// Stars
+const sl=document.getElementById('starsLayer');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');s.className='star';
+  s.style.cssText=`left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*4}s;animation-duration:${2+Math.random()*3}s`;
+  sl.appendChild(s);
+}
+// Hearts
+const hc=document.getElementById('hc');
+function spawnHeart(){
+  const h=document.createElement('div');h.className='heart-float';
+  h.textContent=['💖','💕','💗','🌹','✨'][Math.floor(Math.random()*5)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${8+Math.random()*6}s`;
+  hc.appendChild(h);setTimeout(()=>h.remove(),15000);
+}
+setInterval(spawnHeart,2000);
+// Typewriter
+const nameEl=document.getElementById('typedName');
+const text='Jeenee 💖';
+let i=0;
+function type(){
+  if(i<text.length){
+    nameEl.innerHTML=text.slice(0,i+1)+'<span class="cursor"></span>';
+    i++;setTimeout(type,i===1?600:100);
+  } else {
+    setTimeout(()=>{
+      document.getElementById('subText').style.cssText='opacity:1;transition:opacity 0.8s ease';
+      setTimeout(()=>{
+        document.getElementById('fortuneWrap').style.cssText='opacity:1;transition:opacity 0.8s ease';
+        setTimeout(()=>{
+          document.getElementById('nextWrap').style.cssText='opacity:1;transition:opacity 0.8s ease';
+          // Welcome popup
+          setTimeout(()=>showPop('💖','Hey Jeenee, my bubu! 🥺',
+            'This is a little surprise I made just for you, sweetheart.<br/>Take your time, enjoy every page 🌸<br/><br/>Tap each button when you\'re ready to move to the next surprise!',
+            'Let\'s Go! 💕'),400);
+        },600);
+      },600);
+    },400);
+  }
+}
+setTimeout(type,800);
+// Fortune cookie
+const fortunes=['Your love story is the most beautiful one ever written 🌹','Happiness is right here, in this moment 💖','You are someone\'s whole world, bubu 🌍','The best is yet to come for you two 💫','Love like yours is rare and precious, sweetheart 💎','Every day with you is a gift, my jaan 🎁','You deserve all the good things 🌸'];
+let fortuneUsed=new Set();
+document.getElementById('fortuneBtn').addEventListener('click',function(){
+  let idx;
+  do{idx=Math.floor(Math.random()*fortunes.length);}while(fortuneUsed.has(idx)&&fortuneUsed.size<fortunes.length);
+  fortuneUsed.add(idx);
+  const el=document.getElementById('fortuneText');
+  el.style.animation='none';el.offsetHeight;el.style.animation='fadeUp 0.5s ease forwards';
+  el.textContent=fortunes[idx];
+  this.textContent='🥠 Another one?';
+  showToast('🥠 Your fortune! '+fortunes[idx].slice(0,30)+'...');
+});
+// Audio
+setupAudio('audio/audio1.mp3');
+</script>
+</body>
+</html>

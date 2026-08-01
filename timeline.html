@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>⏳ Our Timeline</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  body{background:linear-gradient(160deg,#0d0020 0%,#1a0035 40%,#0a1530 70%,#000d1a 100%)}
+  .tl-wrap{max-width:560px;width:100%;text-align:center}
+  .page-label{font-size:0.8rem;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+  .tl-card{padding:44px 32px}
+  .timeline{position:relative;margin:28px auto;max-width:400px;text-align:left}
+  .tl-line{position:absolute;left:28px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,rgba(255,107,157,0.3),rgba(255,107,157,0.8),rgba(255,215,0,0.8),transparent)}
+  .tl-item{display:flex;align-items:flex-start;gap:20px;margin-bottom:32px;opacity:0;transform:translateX(-20px);transition:all 0.6s ease}
+  .tl-item.visible{opacity:1;transform:translateX(0)}
+  .tl-dot{width:56px;height:56px;border-radius:50%;background:rgba(255,107,157,0.15);border:2px solid rgba(255,107,157,0.4);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;transition:all 0.4s;cursor:pointer;backdrop-filter:blur(8px);position:relative}
+  .tl-dot::after{content:'👆';position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:0.7rem;opacity:0.5;animation:tapBounce 1.5s ease-in-out infinite}
+  .tl-dot.lit::after{display:none}
+  .tl-dot:hover,.tl-dot.lit{background:rgba(255,107,157,0.3);border-color:var(--pink);box-shadow:0 0 20px rgba(255,107,157,0.5)}
+  .tl-dot.lit{animation:dotPulse 1.5s ease-in-out infinite}
+  @keyframes dotPulse{0%,100%{box-shadow:0 0 10px rgba(255,107,157,0.4)}50%{box-shadow:0 0 25px rgba(255,107,157,0.8)}}
+  .tl-content{padding-top:8px}
+  .tl-title{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--pink);margin-bottom:4px}
+  .tl-desc{font-size:0.88rem;color:rgba(255,255,255,0.65);line-height:1.6;font-style:italic}
+  .tl-date{font-size:0.75rem;color:rgba(255,215,0,0.6);margin-top:4px}
+  .tl-connector{width:2px;height:32px;background:linear-gradient(to bottom,rgba(255,107,157,0.6),rgba(255,107,157,0.2));margin-left:27px;opacity:0;transition:opacity 0.5s ease}
+  .tl-connector.visible{opacity:1}
+  .today-star{animation:starSpin 3s linear infinite}
+  @keyframes starSpin{0%{transform:rotate(0) scale(1)}50%{transform:rotate(180deg) scale(1.2)}100%{transform:rotate(360deg) scale(1)}}
+</style>
+</head>
+<body>
+<div class="hearts-bg" id="hc"></div>
+<div class="cartoon-char teddy-slide">🧸</div>
+
+<div class="section page-enter">
+  <div class="tl-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="glass tl-card">
+      <p class="page-label">Chapter 7 · Our Story</p>
+      <h1 class="title-script" style="margin-bottom:6px">Our Journey ⏳</h1>
+      <p class="subtitle" style="margin-bottom:8px">Every moment that led us here, sweetheart 💕</p>
+      <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin-bottom:20px">👆 Tap each dot on the timeline to light it up</p>
+
+      <div class="timeline">
+        <div class="tl-line"></div>
+        <div class="tl-item" id="t1">
+          <div class="tl-dot" onclick="lightUp(0)">🌅</div>
+          <div class="tl-content">
+            <div class="tl-title">We Met</div>
+            <div class="tl-desc">"The day everything changed, my jaan. I didn't know it then, but my life was about to get so much better."</div>
+            <div class="tl-date">✨ The beginning of us</div>
+          </div>
+        </div>
+        <div class="tl-connector" id="c1"></div>
+        <div class="tl-item" id="t2">
+          <div class="tl-dot" onclick="lightUp(1)">🌹</div>
+          <div class="tl-content">
+            <div class="tl-title">First Date</div>
+            <div class="tl-desc">"Nervous, excited, and completely sure I wanted more of this, bubu — more of you."</div>
+            <div class="tl-date">🌹 Where it all began</div>
+          </div>
+        </div>
+        <div class="tl-connector" id="c2"></div>
+        <div class="tl-item" id="t3">
+          <div class="tl-dot" onclick="lightUp(2)">✈️</div>
+          <div class="tl-content">
+            <div class="tl-title">Adventures Together</div>
+            <div class="tl-desc">"Every trip, every laugh, every moment of getting lost — all perfect because you were there, my love."</div>
+            <div class="tl-date">🗺️ Countless memories</div>
+          </div>
+        </div>
+        <div class="tl-connector" id="c3"></div>
+        <div class="tl-item" id="t4">
+          <div class="tl-dot" onclick="lightUp(3)">💖</div>
+          <div class="tl-content">
+            <div class="tl-title">Falling In Love</div>
+            <div class="tl-desc">"I didn't fall — I jumped. Willingly. Happily. Because loving you, sweetheart, is the easiest thing I've ever done."</div>
+            <div class="tl-date">💖 The best decision</div>
+          </div>
+        </div>
+        <div class="tl-connector" id="c4"></div>
+        <div class="tl-item" id="t5">
+          <div class="tl-dot today-star" onclick="lightUp(4)">⭐</div>
+          <div class="tl-content">
+            <div class="tl-title">Today ❤️</div>
+            <div class="tl-desc">"Right here. Right now. Still choosing you, Jeenee, every single day — and every day that comes after."</div>
+            <div class="tl-date">🌟 And forever more</div>
+          </div>
+        </div>
+      </div>
+
+      <div id="allLit" style="display:none;animation:pageIn 0.8s ease forwards">
+        <p style="font-family:'Dancing Script',cursive;font-size:1.3rem;color:rgba(255,200,220,0.9);margin-bottom:20px">"Every dot on this line is a reason I'm grateful for you, bubu 🌹"</p>
+        <a href="sorry.html" class="btn btn-primary" style="background:linear-gradient(135deg,#9c27b0,#673ab7)" onclick="showToast('Something important from my heart... 🙏')">One Last Thing... 🙏</a>
+        <div class="tap-prompt" style="justify-content:center;margin-top:8px">👆 Tap to continue <span class="tap-arrow">🙏</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+const hc=document.getElementById('hc');
+function spawnHeart(){
+  const h=document.createElement('div');h.className='heart-float';
+  h.textContent=['💖','💕','⏳','🌟','✨'][Math.floor(Math.random()*5)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${7+Math.random()*6}s`;
+  hc.appendChild(h);setTimeout(()=>h.remove(),14000);
+}
+setInterval(spawnHeart,2500);
+
+const items=document.querySelectorAll('.tl-item');
+setTimeout(()=>items.forEach((item,i)=>setTimeout(()=>item.classList.add('visible'),i*400)),400);
+
+let litCount=0;
+const litDots=new Set();
+const tlToasts=['🌅 The day we met — everything changed!','🌹 Our first date — I was so nervous!','✈️ Adventures together — every one perfect!','💖 Falling in love — the best thing ever!','⭐ Today — still choosing you, always!'];
+function lightUp(i){
+  if(litDots.has(i)) return;
+  litDots.add(i);
+  document.querySelectorAll('.tl-dot')[i].classList.add('lit');
+  if(i<4) document.getElementById(`c${i+1}`).classList.add('visible');
+  showToast(tlToasts[i]);
+  const dot=document.querySelectorAll('.tl-dot')[i];
+  const rect=dot.getBoundingClientRect();
+  sparkleAt(rect.left+rect.width/2,rect.top+rect.height/2,12);
+  litCount++;
+  if(litCount===5){
+    setTimeout(()=>{
+      showPop('⏳','Our Journey is Complete!','Every dot lit up — every moment of us, my jaan 💕<br/>Thank you for being part of my story 🌹','So beautiful 💖',()=>{
+        document.getElementById('allLit').style.display='block';
+      });
+    },500);
+  }
+}
+
+setupAudio('audio/audio7.mp3');
+</script>
+</body>
+</html>

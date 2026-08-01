@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎁 A Gift For Jeenee</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  body{background:linear-gradient(135deg,#0d0020 0%,#1a0035 40%,#0a1530 70%,#000d1a 100%)}
+  .gift-wrap{text-align:center;max-width:600px;width:100%}
+  .page-label{font-size:0.8rem;color:rgba(255,255,255,0.3);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+  .gift-scene{perspective:600px;margin:28px auto;width:200px;height:220px;cursor:pointer}
+  .gift-box{width:200px;height:220px;position:relative;transform-style:preserve-3d;transition:transform 0.3s}
+  .gift-box:hover{transform:scale(1.06) rotateY(6deg)}
+  .box-body{position:absolute;bottom:0;left:0;width:200px;height:160px;background:linear-gradient(135deg,#ff6b9d,#c2185b);border-radius:8px 8px 12px 12px;box-shadow:0 12px 40px rgba(255,77,125,0.5),inset 0 1px 0 rgba(255,255,255,0.3)}
+  .box-ribbon-v{position:absolute;left:50%;top:0;transform:translateX(-50%);width:24px;height:100%;background:linear-gradient(to bottom,#ffd700,#ffaa00);border-radius:4px}
+  .box-ribbon-h{position:absolute;top:50%;left:0;transform:translateY(-50%);width:100%;height:24px;background:linear-gradient(to right,#ffd700,#ffaa00);border-radius:4px}
+  .box-shine{position:absolute;top:10px;left:10px;width:40px;height:60px;background:rgba(255,255,255,0.15);border-radius:50%;transform:rotate(-30deg)}
+  .box-lid{position:absolute;top:0;left:-8px;width:216px;height:64px;background:linear-gradient(135deg,#ff4d7d,#ad1457);border-radius:10px;box-shadow:0 4px 20px rgba(255,77,125,0.4);transform-origin:bottom center;transition:transform 0.8s cubic-bezier(0.34,1.56,0.64,1);z-index:2;display:flex;align-items:center;justify-content:center}
+  .box-lid.open{transform:rotateX(-130deg) translateY(-20px)}
+  .bow{font-size:2.8rem}
+  .gift-box.shake{animation:shake 0.5s ease}
+  @keyframes shake{0%,100%{transform:rotate(0)}20%{transform:rotate(-6deg) scale(1.06)}40%{transform:rotate(6deg) scale(1.06)}60%{transform:rotate(-3deg)}80%{transform:rotate(3deg)}}
+  .gift-box.wiggle{animation:wiggle 0.6s ease}
+  @keyframes wiggle{0%,100%{transform:rotate(0) scale(1)}25%{transform:rotate(-8deg) scale(1.08)}50%{transform:rotate(8deg) scale(1.08)}75%{transform:rotate(-4deg) scale(1.04)}}
+  .ribbon-untie{animation:ribbonUntie 0.8s ease forwards}
+  @keyframes ribbonUntie{0%{opacity:1;transform:scale(1)}50%{transform:scale(1.2) rotate(10deg)}100%{opacity:0;transform:scale(0) rotate(180deg)}}
+  .golden-light{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:0;height:0;background:radial-gradient(circle,rgba(255,215,0,0.8),rgba(255,150,0,0.4),transparent);border-radius:50%;transition:all 0.8s ease;pointer-events:none;z-index:3}
+  .golden-light.burst{width:300px;height:300px;opacity:0;transition:all 0.8s ease}
+  @keyframes heartbeatPage{0%,100%{transform:scale(1)}14%{transform:scale(1.008)}28%{transform:scale(1)}42%{transform:scale(1.005)}70%{transform:scale(1)}}
+  .heartbeat-active{animation:heartbeatPage 1s ease-in-out 3}
+  .tap-hint-gift{font-size:0.88rem;color:rgba(255,255,255,0.5);margin-top:8px;animation:blink 1.5s infinite}
+  @keyframes blink{0%,100%{opacity:0.4}50%{opacity:1}}
+  .tap-stage{font-size:0.82rem;color:rgba(255,200,150,0.8);margin-top:4px;min-height:1.4rem;font-family:'Dancing Script',cursive;font-size:1rem}
+  .surprise-reveal{display:none}
+  .surprise-reveal.show{display:block;animation:pageIn 0.8s ease forwards}
+  .surprise-items{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:14px;margin:24px 0}
+  .surprise-item{padding:22px 14px;border-radius:18px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,107,157,0.3);text-align:center;opacity:0;animation:popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) forwards}
+  @keyframes popIn{from{opacity:0;transform:scale(0.3) rotate(-10deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+  .surprise-item:nth-child(1){animation-delay:0.1s}.surprise-item:nth-child(2){animation-delay:0.2s}
+  .surprise-item:nth-child(3){animation-delay:0.3s}.surprise-item:nth-child(4){animation-delay:0.4s}
+  .surprise-item:nth-child(5){animation-delay:0.5s}.surprise-item:nth-child(6){animation-delay:0.6s}
+  .surprise-item .s-icon{font-size:2.2rem;display:block;margin-bottom:8px}
+  .surprise-item .s-text{font-size:0.82rem;color:rgba(255,255,255,0.8)}
+  .cake-section{margin:24px 0;padding:20px;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:16px}
+  .cake-emoji{font-size:4rem;display:block;cursor:pointer;animation:cakeBounce 2s ease-in-out infinite}
+  @keyframes cakeBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .cake-msg{font-family:'Dancing Script',cursive;font-size:1.1rem;color:rgba(255,215,0,0.9);margin-top:8px;display:none}
+  .confetti-piece{position:fixed;pointer-events:none;z-index:9999;animation:confettiFall 2s ease forwards}
+  @keyframes confettiFall{0%{transform:translateY(-20px) rotate(0);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+</style>
+</head>
+<body>
+<div class="hearts-bg" id="hc"></div>
+<div class="cartoon-char teddy-slide">🧸</div>
+
+<div class="section page-enter" id="mainSection">
+  <div class="gift-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <p class="page-label">Chapter 5 · Your Gift</p>
+    <h1 class="title-script" style="margin-bottom:6px">A Gift For You 🎁</h1>
+    <p class="subtitle" style="margin-bottom:4px">Wrapped with all my love, bubu 🎀</p>
+    <p style="font-size:0.78rem;color:rgba(255,255,255,0.3);margin-bottom:4px">👆 Tap the gift box 3 times to open it</p>
+
+    <div id="giftSceneWrap" style="position:relative">
+      <div class="gift-scene" id="giftScene3d">
+        <div class="gift-box" id="giftBox">
+          <div class="box-lid" id="boxLid"><div class="bow">🎀</div></div>
+          <div class="box-body">
+            <div class="box-ribbon-v" id="ribbonV"></div>
+            <div class="box-ribbon-h" id="ribbonH"></div>
+            <div class="box-shine"></div>
+          </div>
+        </div>
+        <div class="golden-light" id="goldenLight"></div>
+      </div>
+      <p class="tap-hint-gift">👆 Tap the gift to start opening it 🎁</p>
+      <p class="tap-stage" id="tapStage">Tap once to begin... ✨</p>
+    </div>
+
+    <div class="glass surprise-reveal" id="surpriseReveal" style="padding:32px 24px">
+      <div class="title-script" style="font-size:2rem;margin-bottom:8px">You opened it! 🎉</div>
+      <p class="subtitle" style="margin-bottom:4px">Inside this gift is everything I want to give you:</p>
+      <div class="surprise-items">
+        <div class="surprise-item"><span class="s-icon">💖</span><span class="s-text">All my love, forever</span></div>
+        <div class="surprise-item"><span class="s-icon">😂</span><span class="s-text">Endless laughter</span></div>
+        <div class="surprise-item"><span class="s-icon">🌍</span><span class="s-text">Adventures together</span></div>
+        <div class="surprise-item"><span class="s-icon">🤗</span><span class="s-text">Warm hugs always</span></div>
+        <div class="surprise-item"><span class="s-icon">⭐</span><span class="s-text">A lifetime of memories</span></div>
+        <div class="surprise-item"><span class="s-icon">🌹</span><span class="s-text">Roses every day</span></div>
+      </div>
+      <div class="cake-section">
+        <p style="font-size:0.85rem;color:rgba(255,215,0,0.7);margin-bottom:8px">🎂 And one more surprise...</p>
+        <span class="cake-emoji" id="cakeEmoji" onclick="blowCandles()">🎂</span>
+        <p style="font-size:0.78rem;color:rgba(255,255,255,0.35);margin-top:6px">👆 Tap the cake!</p>
+        <div class="cake-msg" id="cakeMsg">🎉 Happy Everything, Jeenee! 🎉</div>
+      </div>
+      <p style="font-family:'Dancing Script',cursive;font-size:1.25rem;color:rgba(255,200,220,0.9);margin-bottom:20px">"You are the greatest gift life ever gave me, Jeenee 💕"</p>
+      <a href="fireworks.html" class="btn btn-primary" onclick="showToast('Fireworks time! 🎆')">Next Surprise 🎆</a>
+      <div class="tap-prompt" style="justify-content:center;margin-top:8px">👆 Tap to continue <span class="tap-arrow">🎆</span></div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+const hc=document.getElementById('hc');
+function spawnHeart(){
+  const h=document.createElement('div');h.className='heart-float';
+  h.textContent=['💖','💕','🎁','🎀','✨'][Math.floor(Math.random()*5)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${8+Math.random()*6}s`;
+  hc.appendChild(h);setTimeout(()=>h.remove(),14000);
+}
+setInterval(spawnHeart,2500);
+
+let tapCount=0;
+const stages=['Tap once to begin... ✨','Give it another tap... 👀','Untying the ribbon... 🎀','Opening... ✨'];
+
+document.getElementById('giftScene3d').addEventListener('click',function(){
+  if(tapCount>=3) return;
+  tapCount++;
+  document.getElementById('tapStage').textContent=stages[tapCount]||'';
+  if(tapCount===1){
+    showToast('🎁 Ooh something is inside...');
+    const box=document.getElementById('giftBox');
+    box.classList.add('shake');
+    setTimeout(()=>box.classList.remove('shake'),500);
+    if(navigator.vibrate) navigator.vibrate([100,50,100]);
+  } else if(tapCount===2){
+    showToast('🎀 Untying the ribbon...');
+    const box=document.getElementById('giftBox');
+    box.classList.add('wiggle');
+    setTimeout(()=>box.classList.remove('wiggle'),600);
+    document.getElementById('ribbonV').classList.add('ribbon-untie');
+    document.getElementById('ribbonH').classList.add('ribbon-untie');
+    if(navigator.vibrate) navigator.vibrate([100,50,100,50,100]);
+  } else if(tapCount===3){
+    showToast('✨ Opening... something magical inside!');
+    document.getElementById('boxLid').classList.add('open');
+    setTimeout(()=>{
+      document.getElementById('goldenLight').classList.add('burst');
+      document.getElementById('mainSection').classList.add('heartbeat-active');
+      if(navigator.vibrate) navigator.vibrate([100,50,100,50,200]);
+      for(let i=0;i<50;i++){
+        const c=document.createElement('div');c.className='confetti-piece';
+        c.textContent=['🎊','🎉','💖','✨','🌟','💫','🎀'][Math.floor(Math.random()*7)];
+        c.style.cssText=`left:${Math.random()*100}%;animation-delay:${Math.random()*0.5}s;font-size:${0.8+Math.random()*1.5}rem`;
+        document.body.appendChild(c);setTimeout(()=>c.remove(),2500);
+      }
+      setTimeout(()=>{
+        showPop('🎁','You opened it!','Look what was inside — everything I want to give you, my jaan 💕<br/>And there\'s even a cake! 🎂','Aww! 🥺',()=>{
+          document.getElementById('giftSceneWrap').style.display='none';
+          document.getElementById('surpriseReveal').classList.add('show');
+        });
+      },900);
+    },400);
+  }
+});
+
+function blowCandles(){
+  document.getElementById('cakeEmoji').textContent='🎉';
+  document.getElementById('cakeEmoji').style.animation='none';
+  document.getElementById('cakeMsg').style.display='block';
+  showToast('🎂 Happy Everything, sweetheart! 🎉');
+  if(navigator.vibrate) navigator.vibrate([200,100,200]);
+  for(let i=0;i<25;i++){
+    const c=document.createElement('div');c.className='confetti-piece';
+    c.textContent=['🎊','🎉','🎂','✨','🌟','💫'][Math.floor(Math.random()*6)];
+    c.style.cssText=`left:${Math.random()*100}%;animation-delay:${Math.random()*0.3}s;font-size:${0.8+Math.random()*1.2}rem`;
+    document.body.appendChild(c);setTimeout(()=>c.remove(),2200);
+  }
+}
+
+setupAudio('audio/audio5.mp3');
+</script>
+</body>
+</html>

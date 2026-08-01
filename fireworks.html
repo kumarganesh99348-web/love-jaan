@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🎆 Celebrating Jeenee!</title>
+<link rel="stylesheet" href="style.css"/>
+<script src="shared.js"></script>
+<style>
+  #fwCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+  .celebrate-wrap{text-align:center;max-width:580px;position:relative;z-index:2;width:100%}
+  .page-label{font-size:0.8rem;color:rgba(255,255,255,0.35);letter-spacing:2px;text-transform:uppercase;margin-bottom:16px}
+  .celebrate-card{padding:44px 32px}
+  .big-emoji{font-size:5rem;display:block;margin-bottom:12px;animation:bounce 1s infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-16px) scale(1.1)}}
+  .message-text{font-family:'Dancing Script',cursive;font-size:clamp(1.1rem,3.5vw,1.6rem);color:rgba(255,200,220,0.95);line-height:1.6;margin:16px 0}
+  .counter-display{font-size:2.8rem;font-family:'Dancing Script',cursive;color:var(--gold);margin:12px 0;text-shadow:0 0 20px rgba(255,215,0,0.6)}
+  .fw-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0}
+</style>
+</head>
+<body>
+<canvas id="fwCanvas"></canvas>
+<div class="hearts-bg" id="hc"></div>
+<div class="cartoon-char teddy-slide">🧸</div>
+
+<div class="section page-enter">
+  <div class="celebrate-wrap">
+    <div class="progress-dots">
+      <div class="dot done"></div><div class="dot done"></div><div class="dot done"></div>
+      <div class="dot done"></div><div class="dot done"></div>
+      <div class="dot active"></div>
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="glass celebrate-card">
+      <p class="page-label">Chapter 6 · Celebrate!</p>
+      <span class="big-emoji">🎆</span>
+      <h1 class="title-script">Celebrating You, Jeenee! 🎉</h1>
+      <p class="message-text">"Every day with you is worth celebrating, my jaan — today, tomorrow, and always 💖"</p>
+      <div class="counter-display">💖 × <span id="countNum">0</span></div>
+      <p style="font-size:0.82rem;color:rgba(255,255,255,0.35);margin-bottom:8px">👆 Tap anywhere to launch fireworks!</p>
+      <div class="fw-btns">
+        <button class="btn btn-primary" onclick="bigBurst();showToast('🎆 Big Burst!')">🎆 Big Burst!</button>
+        <button class="btn btn-ghost" onclick="heartBurst();showToast('💖 Heart Burst for you, bubu!')">💖 Heart Burst!</button>
+      </div>
+      <div style="margin-top:16px;opacity:0;transition:opacity 0.8s ease" id="nextWrap">
+        <a href="timeline.html" class="btn btn-primary" onclick="showToast('Our journey together ⏳')">Our Timeline ⏳</a>
+        <div class="tap-prompt" style="justify-content:center;margin-top:8px">👆 Tap to see our journey <span class="tap-arrow">⏳</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="audio-btn" id="audioBtn">🎵</button>
+
+<script>
+const hc=document.getElementById('hc');
+function spawnHeart(){
+  const h=document.createElement('div');h.className='heart-float';
+  h.textContent=['💖','💕','🎆','🎉','✨','🌟'][Math.floor(Math.random()*6)];
+  h.style.cssText=`left:${Math.random()*100}%;font-size:${0.8+Math.random()*1.2}rem;animation-duration:${8+Math.random()*6}s`;
+  hc.appendChild(h);setTimeout(()=>h.remove(),14000);
+}
+setInterval(spawnHeart,2500);
+
+const canvas=document.getElementById('fwCanvas');
+const ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight;});
+const particles=[];
+const COLORS=['#ff6b9d','#ff4d7d','#ffd700','#ff69b4','#ff1493','#fff','#c2185b','#ffb6c1','#ff8c00'];
+class Particle{
+  constructor(x,y,color,vx,vy,size){this.x=x;this.y=y;this.color=color;this.vx=vx;this.vy=vy;this.size=size||3;this.life=1;this.decay=0.015+Math.random()*0.01;this.gravity=0.06;}
+  update(){this.x+=this.vx;this.y+=this.vy;this.vy+=this.gravity;this.vx*=0.98;this.life-=this.decay;this.size*=0.97;}
+  draw(){ctx.save();ctx.globalAlpha=Math.max(0,this.life);ctx.fillStyle=this.color;ctx.beginPath();ctx.arc(this.x,this.y,this.size,0,Math.PI*2);ctx.fill();ctx.restore();}
+}
+function explode(x,y,count,colors){
+  const c=colors||COLORS;
+  for(let i=0;i<(count||60);i++){
+    const angle=Math.random()*Math.PI*2,speed=2+Math.random()*5;
+    particles.push(new Particle(x,y,c[Math.floor(Math.random()*c.length)],Math.cos(angle)*speed,Math.sin(angle)*speed,2+Math.random()*3));
+  }
+}
+let count=0;
+function incrementCounter(n){count+=n;document.getElementById('countNum').textContent=count;}
+function bigBurst(){for(let i=0;i<5;i++)setTimeout(()=>explode(Math.random()*canvas.width,Math.random()*canvas.height*0.7,80),i*200);incrementCounter(5);}
+function heartBurst(){
+  const cx=canvas.width/2,cy=canvas.height/2;
+  for(let t=0;t<Math.PI*2;t+=0.15){
+    const x=cx+16*(Math.pow(Math.sin(t),3))*8;
+    const y=cy-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))*8;
+    setTimeout(()=>explode(x,y,15,['#ff6b9d','#ff4d7d','#ff1493','#ffb6c1']),Math.random()*500);
+  }
+  incrementCounter(10);
+}
+document.addEventListener('click',e=>{explode(Math.random()*canvas.width,Math.random()*canvas.height*0.8,40);incrementCounter(1);});
+setInterval(()=>explode(Math.random()*canvas.width,100+Math.random()*canvas.height*0.5,50),2500);
+function animate(){
+  ctx.fillStyle='rgba(26,0,16,0.18)';ctx.fillRect(0,0,canvas.width,canvas.height);
+  for(let i=particles.length-1;i>=0;i--){particles[i].update();particles[i].draw();if(particles[i].life<=0||particles[i].size<0.3)particles.splice(i,1);}
+  requestAnimationFrame(animate);
+}
+animate();
+
+// Dramatic finale
+let finaleStarted=false;
+function dramaticFinale(){
+  if(finaleStarted)return;
+  finaleStarted=true;
+  const card=document.querySelector('.celebrate-card');
+  const msg=document.createElement('p');
+  msg.style.cssText="font-family:'Dancing Script',cursive;font-size:1.4rem;color:rgba(255,200,220,0.9);margin-top:16px";
+  msg.textContent='Get ready... 🎆';
+  card.insertBefore(msg,document.getElementById('nextWrap'));
+  showToast('🎆 Grand finale coming up...');
+  ['3...','2...','1...'].forEach((s,i)=>setTimeout(()=>{msg.textContent=s;showToast(s);},( i+1)*1000));
+  setTimeout(()=>{
+    msg.textContent='💥 BOOM!';
+    showToast('💥 BOOM! For you, sweetheart!');
+    if(navigator.vibrate)navigator.vibrate([200,100,200,100,400]);
+    for(let i=0;i<8;i++)setTimeout(()=>explode(Math.random()*canvas.width,Math.random()*canvas.height*0.7,100),i*300);
+    setTimeout(()=>heartBurst(),2500);
+    setTimeout(()=>{
+      msg.textContent='🎆 For you, Jeenee! 🎆';
+      document.getElementById('nextWrap').style.opacity='1';
+      showPop('🎆','Grand Finale!','That was all for you, my jaan! 🎉<br/>Every firework = one reason I love you 💖<br/><br/>Ready for the next surprise?','Yes! 💕');
+    },3500);
+  },4000);
+}
+setTimeout(()=>bigBurst(),600);
+setTimeout(()=>dramaticFinale(),8000);
+
+setupAudio('audio/audio6.mp3');
+</script>
+</body>
+</html>
