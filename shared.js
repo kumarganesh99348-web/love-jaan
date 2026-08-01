@@ -69,7 +69,7 @@ document.addEventListener('click', e => {
 // On next page load, seeks to saved position BEFORE playing
 // so the song never restarts from 0.
 
-const _SONG     = 'audio/sudarshanbeatz-2c25-tum-hi-ho-hindi-song-remix-house-mix-sudarshan-beatz-384024.mp3';
+const _SONG     = 'sudarshanbeatz-2c25-tum-hi-ho-hindi-song-remix-house-mix-sudarshan-beatz-384024.mp3';
 const _POS_KEY  = '_lovePos';
 const _PLAY_KEY = '_lovePlaying';
 
